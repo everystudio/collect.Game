@@ -1563,7 +1563,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1812478227}
-  - 114: {fileID: 1812478226}
   - 114: {fileID: 1812478228}
   m_Layer: 0
   m_Name: TitleMain
@@ -1572,24 +1571,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1812478226
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1812478225}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 519d1953a8b0a8c42aa969210b3e191c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CONFIG_UPDATE: 1
-  m_eStep: 0
-  m_eStepPre: 0
-  m_iNetworkSerial: 0
-  m_ssdSample: []
-  m_setupWaiting: {fileID: 0}
-  m_btnNetworkError: {fileID: 425555036}
 --- !u!4 &1812478227
 Transform:
   m_ObjectHideFlags: 0

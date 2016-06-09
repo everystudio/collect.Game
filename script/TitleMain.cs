@@ -152,9 +152,8 @@ public class TitleMain : MonoBehaviourEx {
 
 		case STEP.GOTO_GAME:
 			if (bInit) {
-				if (bInit) {
-					SceneManager.LoadScene ("game");
-				}
+				Debug.LogError ("here");
+				SceneManager.LoadScene ("game");
 			}
 			break;
 		case STEP.MAX:

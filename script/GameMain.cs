@@ -526,6 +526,7 @@ public class GameMain : Singleton<GameMain> {
 					m_eStep = STEP.ENDING;
 					break;
 				default:
+					m_scriptActiveList.RemoveAt (0);
 					break;
 				}
 			} else {
@@ -555,8 +556,12 @@ public class GameMain : Singleton<GameMain> {
 		case STEP.SKIT:
 			if (bInit) {
 				List<string> list = new List<string > ();
-				while (m_scriptActiveList [0].command == "text") {
-					list.Add (m_scriptActiveList [0].param);
+				while (m_scriptActiveList [0].command == "text" ||
+						m_scriptActiveList [0].command == "name") {
+
+					if (m_scriptActiveList [0].command == "text") {
+						list.Add (m_scriptActiveList [0].param);
+					}
 					m_scriptActiveList.RemoveAt (0);
 					if (m_scriptActiveList.Count == 0) {
 						break;
