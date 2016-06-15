@@ -97,6 +97,7 @@ public class StillMain : WindowBase {
 		case STEP.WAIT:
 			if (bInit) {
 				m_fTimer = 0.0f;
+				m_btnSprite.TriggerClear ();
 			}
 			m_fTimer += Time.deltaTime;
 			if (5.0f < m_fTimer) {
@@ -111,6 +112,7 @@ public class StillMain : WindowBase {
 				//TweenAlphaAll (m_btnClose.gameObject, 1.0f, 1.0f);
 				m_btnClose.gameObject.SetActive(true);
 				m_btnClose.TriggerClear ();
+				m_btnSprite.TriggerClear ();
 			}
 			if (m_btnClose.ButtonPushed) {
 				m_eStep = STEP.CLOSE;
