@@ -38,6 +38,8 @@ public class Startup : Singleton<Startup> {
 
 	public override void Initialize ()
 	{
+		Application.targetFrameRate = 60;
+
 		// ios対応；基本保存させない
 		#if UNITY_IOS
 		UnityEngine.iOS.Device.SetNoBackupFlag(Application.persistentDataPath);
