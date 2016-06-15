@@ -71,8 +71,12 @@ public class DataManager : DataManagerBase<DataManager> {
 
 		LoadChapter ();
 
+		m_eActiveAdType = AD_TYPE.NEND;
+
 		return;
 	}
+
+	public AD_TYPE m_eActiveAdType;
 
 	public void LoadChapter(){
 		m_csvChapter.Load (CsvChapter.FILE_NAME);

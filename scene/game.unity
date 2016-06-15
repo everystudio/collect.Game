@@ -3334,7 +3334,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d31ed63021ccd3f48a04ecff9b4d417d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_eTweetResult: 0
 --- !u!4 &766619047
 Transform:
   m_ObjectHideFlags: 0
@@ -4805,7 +4804,7 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 2.2249832, y: -3.1}
+  m_AnchoredPosition: {x: 2.2253609, y: -5.601124}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1173406592
@@ -4829,12 +4828,12 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 26
+    m_FontSize: 20
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 1
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -7400,7 +7399,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -1.3753967, y: -49.098938}
-  m_SizeDelta: {x: 130, y: 26}
+  m_SizeDelta: {x: 130, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1964785960
 MonoBehaviour:

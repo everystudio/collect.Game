@@ -52,10 +52,10 @@ public class AdManager : Singleton<AdManager> {
 	public bool m_bIsIcon;
 	#endif
 
-	public void ShowIcon(DataManager.AD_TYPE _eAdType,bool _bDisp ){
+	public bool ShowIcon(DataManager.AD_TYPE _eAdType,bool _bDisp ){
 
 		if (m_bAdDispIcon == _bDisp) {
-			return;
+			return false;
 		}
 
 		switch (_eAdType) {
@@ -92,11 +92,12 @@ public class AdManager : Singleton<AdManager> {
 			break;
 		}
 		m_bAdDispIcon = _bDisp;
+		return true;
 	}
 
-	public void ShowBanner(DataManager.AD_TYPE _eAdType,bool _bDisp){
+	public bool ShowBanner(DataManager.AD_TYPE _eAdType,bool _bDisp){
 		if (m_bAdDispBanner == _bDisp) {
-			return;
+			return false;
 		}
 		switch (_eAdType) {
 		case DataManagerBase<DataManager>.AD_TYPE.NEND:
@@ -129,6 +130,7 @@ public class AdManager : Singleton<AdManager> {
 			break;
 		}
 		m_bAdDispBanner = _bDisp;
+		return true;
 	}
 
 

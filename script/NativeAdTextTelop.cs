@@ -47,6 +47,7 @@ public class NativeAdTextTelop : MonoBehaviourEx {
 
 	public void Loaded(NendAdNativeView view){
 		myTransform.localPosition = new Vector3 (BACK_WIDTH - (0.5f*BACK_WIDTH) , BACK_HEIGHT*-0.25f, 0.0f);
+
 		//Debug.LogError ("NativeAdTextTelop.Loaded");
 		nativeAdView = view;
 		//m_strPr = nativeAdView.GetPrText ();
@@ -57,6 +58,7 @@ public class NativeAdTextTelop : MonoBehaviourEx {
 		m_fTelopWidth = m_textTelop.text.Length * FONT_SIZE;
 		m_textTelop.rectTransform.sizeDelta = new Vector2 (m_fTelopWidth,FONT_SIZE+2.0f);
 
+		Debug.LogError (m_textTelop.text);
 		m_eStep = STEP.SETUP;
 	}
 

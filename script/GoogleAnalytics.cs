@@ -14,6 +14,8 @@ public class GoogleAnalytics : GoogleAnalyticsBase<GoogleAnalytics> {
 		appName = "ナツヤスミ、いりませんか？";
 		appVersion = "1";
 
+		Invoke ("heartbeat", HEARTBEAT_INTERVAL);
+
 	}
 
 	public void LogScriptStart( int _iScriptId , int _iScriptIndex ){

@@ -491,6 +491,7 @@ public class GameMain : Singleton<GameMain> {
 				case "mode":
 					m_eStep = STEP.SKIT_TYPE;
 					break;
+				case "name":
 				case "text":
 					m_eStep = STEP.SKIT;
 					break;
@@ -556,11 +557,25 @@ public class GameMain : Singleton<GameMain> {
 		case STEP.SKIT:
 			if (bInit) {
 				List<string> list = new List<string > ();
+
+				string strName = "";
 				while (m_scriptActiveList [0].command == "text" ||
 						m_scriptActiveList [0].command == "name") {
 
 					if (m_scriptActiveList [0].command == "text") {
-						list.Add (m_scriptActiveList [0].param);
+						string strMessage = "";
+						if (strName.Equals ("") == false) {
+							strMessage = string.Format ("{0}\n{1}", strName, m_scriptActiveList [0].param);
+							strName = "";
+						} else {
+							strMessage = m_scriptActiveList [0].param;
+						}
+						list.Add (strMessage);
+					}
+					else if( m_scriptActiveList [0].command.Equals( "name")){
+						strName = m_scriptActiveList [0].param;
+					}
+					else {
 					}
 					m_scriptActiveList.RemoveAt (0);
 					if (m_scriptActiveList.Count == 0) {
