@@ -56,25 +56,25 @@ public class Startup : Singleton<Startup> {
 	// Update is called once per frame
 	void Update () {
 		bool bInit = false;
+
 		if (m_eStepPre != m_eStep) {
 			m_eStepPre  = m_eStep;
 			bInit = true;
 			//Debug.LogError (m_eStep);
 		}
+
 		switch (m_eStep) {
 		case STEP.CHECK_CONFIG:
 			if (bInit) {
-
 				#if UNITY_ANDROID
 				NendAdInterstitial.Instance.Load ("1f6b7ab7fb6f2e5ec95ee56c73e731e5b86cffee", "597666");
 				#elif UNITY_IPHONE
 				NendAdInterstitial.Instance.Load("fb8bc1393982950ccbd6c706b35954725b3666bc", "597676");
 				#else
 				#endif
-				m_iNetworkSerial = CommonNetwork.Instance.RecieveSpreadSheet (
-					DataManager.Instance.SPREAD_SHEET,
-					DataManager.Instance.SPREAD_SHEET_CONFIG_SHEET);
+				m_iNetworkSerial = CommonNetwork.Instance.RecieveSpreadSheet (DataManager.Instance.SPREAD_SHEET,DataManager.Instance.SPREAD_SHEET_CONFIG_SHEET);
 			}
+
 			if (CommonNetwork.Instance.IsConnected (m_iNetworkSerial)) {
 				// 一度終了に向かうように設定
 				m_eStep = STEP.GOTO_GAME;
@@ -162,13 +162,17 @@ public class Startup : Singleton<Startup> {
 				CsvDownload download_list = new CsvDownload ();
 				download_list.Load (FileDownloadManager.FILENAME_DOWNLOAD_LIST);
 				Debug.Log (TimeManager.StrGetTime ());
-				FileDownloadManager.Instance.Download ( DataManager.Instance.config.ReadInt( FileDownloadManager.KEY_DOWNLOAD_VERSION) , download_list.list);
+				FileDownloadManager.Instance.Download (DataManager.Instance.config.ReadInt (FileDownloadManager.KEY_DOWNLOAD_VERSION), download_list.list);
 			}
-			if (FileDownloadManager.Instance.IsIdle ()) {
+			
+			int iTotal = 0;
+			int iDownloaded = 0;
+			if (FileDownloadManager.Instance.IsIdle (out iTotal, out iDownloaded)) {
 				m_eStep = STEP.CHECK_UPDATE;
 				DataManager.Instance.kvs_data.WriteInt (FileDownloadManager.KEY_DOWNLOAD_VERSION, DataManager.Instance.config.ReadInt (FileDownloadManager.KEY_DOWNLOAD_VERSION));
 				DataManager.Instance.kvs_data.Save (DataKvs.FILE_NAME);
 			}
+			m_setupWaiting.SetBaseText (string.Format ("データダウンロード中({0}/{1})", iDownloaded, iTotal));
 			break;
 		case STEP.UPDATE_CHAPTER:
 			if (bInit) {
@@ -226,7 +230,8 @@ public class Startup : Singleton<Startup> {
 		case STEP.MAX:
 		default:
 			break;
-		}
+		
+				}
 
 	}
 }
