@@ -184,7 +184,7 @@ public class Startup : Singleton<Startup> {
 				chapter_data.Save (CsvChapter.FILE_NAME);
 				DataManager.Instance.kvs_data.WriteInt (DataManager.Instance.KEY_CHAPTER_VERSION, DataManager.Instance.config.ReadInt (DataManager.Instance.KEY_CHAPTER_VERSION));
 				DataManager.Instance.kvs_data.Save (DataKvs.FILE_NAME);
-
+				DataManager.Instance.LoadChapter ();
 				m_eStep = STEP.CHECK_UPDATE;
 			}
 			break;

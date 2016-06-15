@@ -68,10 +68,17 @@ public class DataManager : DataManagerBase<DataManager> {
 		kvs_data.Load (DataKvs.FILE_NAME);
 
 		config.Load (CsvConfig.FILE_NAME);
-		m_csvChapter.Load (CsvChapter.FILE_NAME);
+
+		LoadChapter ();
 
 		return;
 	}
+
+	public void LoadChapter(){
+		m_csvChapter.Load (CsvChapter.FILE_NAME);
+	}
+
+
 
 	public int ShareBonusAddTargetNum(){
 		if( config.HasKey( KEY_SHAREBONUS_ADD_TARGET_NUM )){
