@@ -84,7 +84,7 @@ public class ShareMain : PageBase {
 			}
 			if (m_bScreenshot) {
 				m_eStep = STEP.IDLE;
-				NendAdInterstitial.Instance.Show();
+				NendAdInterstitial.Instance.Show(DataManager.Instance.SPOTID_MENU);
 				m_goDispRoot.SetActive (true);
 			}
 			break;
@@ -95,7 +95,7 @@ public class ShareMain : PageBase {
 				m_btnManager.TriggerClearAll ();
 			}
 			if (m_closeButton.ButtonPushed) {
-				NendAdInterstitial.Instance.Show();
+				NendAdInterstitial.Instance.Show(DataManager.Instance.SPOTID_MENU);
 
 				m_eStep = STEP.END;
 			} else if (m_btnManager.ButtonPushed) {

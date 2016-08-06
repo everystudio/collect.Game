@@ -44,7 +44,7 @@ public class ChapterMain : PageBase {
 			m_btnManager.AddButtonBase (script.gameObject);
 		}
 		m_btnManager.ButtonInit ();
-		NendAdInterstitial.Instance.Show();
+		NendAdInterstitial.Instance.Show(DataManager.Instance.SPOTID_MENU);
 
 	}
 
@@ -90,7 +90,7 @@ public class ChapterMain : PageBase {
 		case STEP.END:
 			if (bInit) {
 				m_bIsEnd = true;
-				NendAdInterstitial.Instance.Show();
+				NendAdInterstitial.Instance.Show(DataManager.Instance.SPOTID_MENU);
 			}
 			break;
 

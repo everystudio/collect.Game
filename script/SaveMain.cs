@@ -94,7 +94,7 @@ public class SaveMain : PageBase {
 				m_closeButton = PrefabManager.Instance.MakeObject ("prefab/CloseButton", m_goDispRoot).GetComponent<ButtonBase> ();
 				m_eStep = STEP.IDLE;
 				if (m_bLoadOnly == false) {
-					NendAdInterstitial.Instance.Show ();
+					NendAdInterstitial.Instance.Show (DataManager.Instance.SPOTID_MENU);
 				}
 			}
 			break;
@@ -184,7 +184,7 @@ public class SaveMain : PageBase {
 			if (bInit) {
 				SpriteManager.Instance.Unload (TEMP_SCREENSHOT_NAME);
 				if (m_bLoadOnly == false) {
-					NendAdInterstitial.Instance.Show ();
+					NendAdInterstitial.Instance.Show (DataManager.Instance.SPOTID_MENU);
 				}
 				m_bIsEnd = true;
 			}

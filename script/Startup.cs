@@ -68,10 +68,12 @@ public class Startup : Singleton<Startup> {
 		switch (m_eStep) {
 		case STEP.CHECK_CONFIG:
 			if (bInit) {
+
+				NendAdInterstitial.Instance.Load (DataManager.Instance.APIKEY_GAMESTART, DataManager.Instance.SPOTID_GAMESTART);
+				NendAdInterstitial.Instance.Load (DataManager.Instance.APIKEY_MENU, DataManager.Instance.SPOTID_MENU);
+
 				#if UNITY_ANDROID
-				NendAdInterstitial.Instance.Load ("1f6b7ab7fb6f2e5ec95ee56c73e731e5b86cffee", "597666");
 				#elif UNITY_IPHONE
-				NendAdInterstitial.Instance.Load("fb8bc1393982950ccbd6c706b35954725b3666bc", "597676");
 				#else
 				#endif
 				m_iNetworkSerial = CommonNetwork.Instance.RecieveSpreadSheet (DataManager.Instance.SPREAD_SHEET,DataManager.Instance.SPREAD_SHEET_CONFIG_SHEET);

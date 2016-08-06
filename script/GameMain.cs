@@ -568,9 +568,13 @@ public class GameMain : Singleton<GameMain> {
 
 					if (m_scriptActiveList [0].command == "text") {
 						string strMessage = "";
+						if (m_scriptActiveList [0].option1.Equals ("") == false) {
+							strName = m_scriptActiveList [0].option1;
+						}
 						if (strName.Equals ("") == false) {
 							strMessage = string.Format ("{0}\n{1}", strName, m_scriptActiveList [0].param);
 							strName = "";
+
 						} else {
 							strMessage = m_scriptActiveList [0].param;
 						}

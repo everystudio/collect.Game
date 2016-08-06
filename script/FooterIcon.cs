@@ -8,6 +8,7 @@ public class FooterIcon : ButtonBase {
 	private UI2DSprite m_sprFront;
 
 	public void Initialize( string _strBack , string _strFront ){
+		//Debug.LogError (_strBack);
 		m_sprBack.sprite2D = SpriteManager.Instance.Load (_strBack);
 		if (_strFront.Equals ("")) {
 			m_sprFront.gameObject.SetActive (false);

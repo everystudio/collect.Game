@@ -3,6 +3,20 @@ using System.Collections;
 
 public class DataManager : DataManagerBase<DataManager> {
 
+
+	#if UNITY_ANDROID
+	public readonly string APIKEY_GAMESTART = "b21aa6bf51bd0d8b3ff419e06a86d56fcc612909";
+	public readonly string SPOTID_GAMESTART = "637720";
+	public readonly string APIKEY_MENU = "d5d77477d05514852f260b95f7ef429b07444c3e";
+	public readonly string SPOTID_MENU = "637721";
+	#elif UNITY_IPHONE
+	public readonly string APIKEY_GAMESTART = "13aa0f0bfc70a5722ee6602acc756e232f7fc927";
+	public readonly string SPOTID_GAMESTART = "637714";
+	public readonly string APIKEY_MENU = "2324679d079bb875a4880128f634be3d7534ea2e";
+	public readonly string SPOTID_MENU = "637715";
+	#else
+	#endif
+
 	public readonly string SPREAD_SHEET = "15XaQvmIA26pqAJOdlzQKGUMNN7n5Y4Ked9BHl0x9Gik";
 	public readonly string SPREAD_SHEET_CONFIG_SHEET = "oqo0ytr";
 
