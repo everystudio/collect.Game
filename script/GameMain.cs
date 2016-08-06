@@ -49,6 +49,7 @@ public class GameMain : Singleton<GameMain> {
 		BACKGROUND			,
 		CHARACTER			,
 		SELECT				,
+		FLAG_SET			,
 		SOUND_BGM			,
 		SOUND_SE			,
 		ENDING				,
@@ -517,6 +518,9 @@ public class GameMain : Singleton<GameMain> {
 				case "select":
 					m_eStep = STEP.SELECT;
 					break;
+				case "flag_set":
+					m_eStep = STEP.FLAG_SET;
+					break;
 				case "bgm":
 					m_eStep = STEP.SOUND_BGM;
 					break;
@@ -590,12 +594,35 @@ public class GameMain : Singleton<GameMain> {
 			}
 			break;
 		case STEP.SET_SCRIPT_ID:
+			Debug.LogError (STEP.SET_SCRIPT_ID);
 			int iNextScriptId = -1;
 			if (m_scriptActiveList [0].param.Contains ("select")) {
-				iNextScriptId = DataManager.Instance.kvs_data.ReadInt (SelectMain.GetSelectKey (m_scriptActiveList [0].option1));
+				if (DataManager.Instance.kvs_data.HasKey (SelectMain.GetSelectKey (m_scriptActiveList [0].option1))) {
+					foreach (CsvKvsParam param in DataManager.Instance.kvs_data.list) {
+						Debug.LogError (string.Format ("{0}:{1}", param.key, param.value));
+					}
+					Debug.LogError (SelectMain.GetSelectKey (m_scriptActiveList [0].option1));
+					//iNextScriptId = DataManager.Instance.kvs_data.ReadInt (SelectMain.GetSelectKey (m_scriptActiveList [0].option1));
+
+					iNextScriptId = DataManager.Instance.kvs_data.ReadInt( (SelectMain.GetSelectKey (m_scriptActiveList [0].option1)));
+					Debug.LogError ("a");
+				} else {
+					//iNextScriptId = DataManager.Instance.kvs_data.ReadInt (SelectMain.GetSelectKey (m_scriptActiveList [0].option2));
+
+
+					Debug.LogError (m_scriptActiveList [0].serial);
+					Debug.LogError (m_scriptActiveList [0].param);
+					Debug.LogError (m_scriptActiveList [0].option1);
+					Debug.LogError (m_scriptActiveList [0].option2);
+
+					iNextScriptId = int.Parse (m_scriptActiveList [0].option2);
+					Debug.LogError ("b");
+				}
 			} else {
 				iNextScriptId = int.Parse (m_scriptActiveList [0].param);
+				Debug.LogError ("c");
 			}
+			Debug.LogError (iNextScriptId);
 			if (m_gameData.script_id != iNextScriptId) {
 				m_bSetScriptIndex = true;
 				m_gameData.script_id = iNextScriptId;
@@ -669,12 +696,41 @@ public class GameMain : Singleton<GameMain> {
 				m_eStep = STEP.SCRIPT_CHECK;
 			}
 			break;
-
+		case STEP.FLAG_SET:
+			bool bOk = true;
+			Debug.LogError ("flag_set");
+			if (!m_scriptActiveList [0].option2.Equals ("")) {
+				string[] checkArr = m_scriptActiveList [0].option2.Split ('-');
+				foreach (string strCheck in checkArr) {
+					if (false == DataManager.Instance.data_kvs.HasKey (strCheck)) {
+						Debug.LogError (strCheck);
+						bOk = false;
+					}
+				}
+				string strKey = SelectMain.GetSelectKey (m_scriptActiveList [0].option1);
+				if (DataManager.Instance.kvs_data.HasKey (strKey)) {
+					iSetScriptIndex = DataManager.Instance.kvs_data.ReadInt (strKey);
+				}
+			}
+			if (bOk) {
+				Debug.LogError (m_scriptActiveList [0].option1);
+				Debug.LogError (m_scriptActiveList [0].param);
+				DataManager.Instance.data_kvs.Write (m_scriptActiveList [0].option1, m_scriptActiveList [0].param);
+			} else {
+				Debug.LogError ("no insert");
+			}
+			m_scriptActiveList.RemoveAt (0);
+			m_eStep = STEP.SCRIPT_CHECK;
+			break;
 		case STEP.SOUND_BGM:
 			if (bInit) {
 				m_gameData.bgm_name = m_scriptActiveList [0].param;
 				m_gameData.bgm_path= m_scriptActiveList [0].option1;
-				SoundManager.Instance.PlayBGM (m_gameData.bgm_name, m_gameData.bgm_path);
+				if (m_gameData.bgm_name.Equals ("") == false) {
+					SoundManager.Instance.PlayBGM (m_gameData.bgm_name, m_gameData.bgm_path);
+				} else {
+					SoundManager.Instance.StopBGM ();
+				}
 			}
 			m_scriptActiveList.RemoveAt (0);
 			m_eStep = STEP.SCRIPT_CHECK;
