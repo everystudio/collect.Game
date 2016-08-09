@@ -17,7 +17,7 @@ public class DataManager : DataManagerBase<DataManager> {
 	#else
 	#endif
 
-	public readonly string SPREAD_SHEET = "15XaQvmIA26pqAJOdlzQKGUMNN7n5Y4Ked9BHl0x9Gik";
+	public readonly string SPREAD_SHEET = "1otKwiwW0U1K8RfeKaD2UbekCw9tNljENQvtYcnGqJys";
 	public readonly string SPREAD_SHEET_CONFIG_SHEET = "oqo0ytr";
 
 	public readonly string FILENAME_SCENARIO = "ScenarioFile";

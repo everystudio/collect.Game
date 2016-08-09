@@ -10,6 +10,7 @@ public class Startup : Singleton<Startup> {
 
 	static public bool InitializeCheck = false;
 	public bool CONFIG_UPDATE = false;
+	public bool SCENARIO_UPDATE = false;
 	public enum STEP
 	{
 		NONE			= 0,
@@ -38,6 +39,10 @@ public class Startup : Singleton<Startup> {
 
 	public override void Initialize ()
 	{
+		if (SCENARIO_UPDATE || CONFIG_UPDATE) {
+			Debug.LogError ("forceupdate please false");
+		}
+
 		Application.targetFrameRate = 60;
 
 		// ios対応；基本保存させない
@@ -110,8 +115,9 @@ public class Startup : Singleton<Startup> {
 		case STEP.CHECK_UPDATE:
 			if (false == DataManager.Instance.config.Read (FileDownloadManager.KEY_DOWNLOAD_VERSION).Equals (DataManager.Instance.kvs_data.Read (FileDownloadManager.KEY_DOWNLOAD_VERSION))) {
 				m_eStep = STEP.UPDATE_DOWNLOAD;
-			} else if (false == DataManager.Instance.config.Read (DataManager.Instance.KEY_SCENARIO_VERSION).Equals (DataManager.Instance.kvs_data.Read (DataManager.Instance.KEY_SCENARIO_VERSION))) {
+			} else if (SCENARIO_UPDATE == true || false == DataManager.Instance.config.Read (DataManager.Instance.KEY_SCENARIO_VERSION).Equals (DataManager.Instance.kvs_data.Read (DataManager.Instance.KEY_SCENARIO_VERSION))) {
 				m_eStep = STEP.UPDATE_SCENARIO;
+				SCENARIO_UPDATE = false;
 			} else if (false == DataManager.Instance.config.Read (DataManager.Instance.KEY_CHAPTER_VERSION).Equals (DataManager.Instance.kvs_data.Read (DataManager.Instance.KEY_CHAPTER_VERSION))) {
 				m_eStep = STEP.UPDATE_CHAPTER;
 			} else if (false == DataManager.Instance.config.Read (DataManager.Instance.KEY_BOOK_VERSION).Equals (DataManager.Instance.kvs_data.Read (DataManager.Instance.KEY_BOOK_VERSION))) {
