@@ -288,6 +288,8 @@ public class GameMain : Singleton<GameMain> {
 			return SkitRoot.TYPE.WINDOW;
 		case "all":
 			return SkitRoot.TYPE.ALL;
+		case "stand":
+			return SkitRoot.TYPE.STAND;
 		default:
 			break;
 		}
@@ -560,12 +562,15 @@ public class GameMain : Singleton<GameMain> {
 
 		case STEP.SKIT:
 			if (bInit) {
-				List<string> list = new List<string > ();
+				List<CsvScriptParam> list = new List<CsvScriptParam> ();
 
-				string strName = "";
 				while (m_scriptActiveList [0].command == "text" ||
-						m_scriptActiveList [0].command == "name") {
+				       m_scriptActiveList [0].command == "stand" ||
+				       m_scriptActiveList [0].command == "name") {
 
+
+					list.Add (m_scriptActiveList [0]);
+					/*
 					if (m_scriptActiveList [0].command == "text") {
 						string strMessage = "";
 						if (m_scriptActiveList [0].option1.Equals ("") == false) {
@@ -579,12 +584,11 @@ public class GameMain : Singleton<GameMain> {
 							strMessage = m_scriptActiveList [0].param;
 						}
 						list.Add (strMessage);
-					}
-					else if( m_scriptActiveList [0].command.Equals( "name")){
+					} else if (m_scriptActiveList [0].command.Equals ("name")) {
 						strName = m_scriptActiveList [0].param;
+					} else {
 					}
-					else {
-					}
+					*/
 					m_scriptActiveList.RemoveAt (0);
 					if (m_scriptActiveList.Count == 0) {
 						break;
@@ -770,6 +774,7 @@ public class GameMain : Singleton<GameMain> {
 			break;
 
 		case STEP.TUTORIAL:
+			/*
 			if (bInit) {
 				List<string> list = new List<string > ();
 				list.Add ("このゲームは画面内にあるターゲットを集めることで左上の経験値がたまります");
@@ -782,6 +787,8 @@ public class GameMain : Singleton<GameMain> {
 				m_eStep = STEP.IDLE;
 				DataManager.Instance.data_kvs.Write ("tutorial_end" , "end");
 			}
+			*/
+			m_eStep = STEP.IDLE;
 			break;
 
 		case STEP.SHARE_EXPAND:
