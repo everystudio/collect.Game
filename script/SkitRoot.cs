@@ -125,6 +125,8 @@ public class SkitRoot : Singleton<SkitRoot> {
 		m_btnEnd.gameObject.SetActive (false);
 
 		m_lbText.text = "";
+
+		callStand (ref m_iIndex);
 	}
 
 	public void Close(){
@@ -182,6 +184,38 @@ public class SkitRoot : Singleton<SkitRoot> {
 		m_btnPrevAll.TriggerClear();
 		m_btnEndAll.TriggerClear();
 	}
+
+	private void callStand( ref int _iIndex ){
+		if (_iIndex == m_scriptParamList.Count) {
+			return;
+		}
+		if (!m_scriptParamList [m_iIndex].command.Equals ("stand")) {
+			return;
+		}
+
+		if (m_scriptParamList [m_iIndex].param.Equals ("")) {
+			if (m_scriptParamList [m_iIndex].option1.Equals ("left")) {
+				Debug.LogError ("left hide");
+				m_sprStandLeft.gameObject.SetActive (false);
+			} else {
+				m_sprStandRight.gameObject.SetActive (false);
+				Debug.LogError ("right hide");
+			}
+		} else {
+			// 強制でstandフォルダ以下とします
+			string strLoadFilename = string.Format ("stand/{0}", m_scriptParamList [m_iIndex].param);
+			Debug.LogError (strLoadFilename);
+			if (m_scriptParamList [m_iIndex].option1.Equals ("left")) {
+				m_sprStandLeft.gameObject.SetActive (true);
+				m_sprStandLeft.sprite2D = SpriteManager.Instance.Load (strLoadFilename);
+			} else {
+				m_sprStandRight.gameObject.SetActive (true);
+				m_sprStandRight.sprite2D = SpriteManager.Instance.Load (strLoadFilename);
+			}
+		}
+		_iIndex += 1;
+		callStand (ref _iIndex);
+	}
 	// Update is called once per frame
 	void Update () {
 
@@ -205,8 +239,9 @@ public class SkitRoot : Singleton<SkitRoot> {
 			} else {
 				string command = m_scriptParamList [m_iIndex].command;
 				if (command.Equals ("stand")) {
-					m_eStep = STEP.STAND;
-					Debug.LogError ("goto stand");
+					//m_eStep = STEP.STAND;
+					callStand (ref m_iIndex);
+					//Debug.LogError ("goto stand");
 				} else if (command.Equals ("name")) {
 					m_eStep = STEP.NAME;
 				} else {
@@ -216,20 +251,6 @@ public class SkitRoot : Singleton<SkitRoot> {
 			break;
 
 		case STEP.STAND:
-			if (m_scriptParamList [m_iIndex].param.Equals ("")) {
-				if (m_scriptParamList [m_iIndex].option1.Equals ("left")) {
-					m_sprStandLeft.gameObject.SetActive (false);
-				} else {
-					m_sprStandRight.gameObject.SetActive (false);
-				}
-			} else {
-				if (m_scriptParamList [m_iIndex].option1.Equals ("left")) {
-					m_sprStandLeft.sprite2D = SpriteManager.Instance.Load (m_scriptParamList [m_iIndex].param);
-				} else {
-					m_sprStandRight.sprite2D = SpriteManager.Instance.Load (m_scriptParamList [m_iIndex].param);
-				}
-			}
-			m_iIndex += 1;
 			m_eStep = STEP.CHECK;
 
 			break;

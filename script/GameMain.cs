@@ -496,6 +496,7 @@ public class GameMain : Singleton<GameMain> {
 					break;
 				case "name":
 				case "text":
+				case "stand":
 					m_eStep = STEP.SKIT;
 					break;
 				case "levelup":
@@ -734,7 +735,9 @@ public class GameMain : Singleton<GameMain> {
 			if (bInit) {
 				m_gameData.bgm_name = m_scriptActiveList [0].param;
 				m_gameData.bgm_path= m_scriptActiveList [0].option1;
+				//Debug.LogError (m_gameData.bgm_name);
 				if (m_gameData.bgm_name.Equals ("") == false) {
+					SoundManager.Instance.StopBGM ();
 					SoundManager.Instance.PlayBGM (m_gameData.bgm_name, m_gameData.bgm_path);
 				} else {
 					SoundManager.Instance.StopBGM ();
