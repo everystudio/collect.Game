@@ -269,9 +269,16 @@ public class SkitRoot : Singleton<SkitRoot> {
 				} else {
 					m_strNameBuf = "";
 				}
-				m_lbTextName.text = m_strNameBuf;
 
-				m_strMessageBuf = m_scriptParamList [m_iIndex].param;
+				m_lbTextName.text = m_strNameBuf;
+				m_strMessageBuf = "";
+				//m_strMessageBuf = m_scriptParamList [m_iIndex].param;
+				string [] arr = m_scriptParamList [m_iIndex].param.Split ('|');
+				foreach (string str in arr) {
+					m_strMessageBuf += str;
+					m_strMessageBuf += "\n";
+				}
+
 				m_iMessageIndex = 0;
 				m_strMessage = "";
 				m_fTimer = 0.0f;
