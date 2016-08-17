@@ -90,7 +90,7 @@ public class ChapterMain : PageBase {
 		case STEP.END:
 			if (bInit) {
 				m_bIsEnd = true;
-				NendAdInterstitial.Instance.Show(DataManager.Instance.SPOTID_MENU);
+				//NendAdInterstitial.Instance.Show(DataManager.Instance.SPOTID_MENU);
 			}
 			break;
 

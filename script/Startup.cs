@@ -91,7 +91,20 @@ public class Startup : Singleton<Startup> {
 				m_ssdSample = EveryStudioLibrary.CommonNetwork.Instance.ConvertSpreadSheetData (data.m_dictRecievedData);
 				CsvConfig config_data = new CsvConfig ();
 				config_data.Input (m_ssdSample);
+
+				if (config_data.HasKey ("force_config")) {
+					if (config_data.ReadInt ("force_config") != 0) {
+						CONFIG_UPDATE = true;
+					}
+				}
+				if (config_data.HasKey ("force_scenario")) {
+					if (config_data.ReadInt ("force_scenario") != 0) {
+						SCENARIO_UPDATE = true;
+					}
+				}
+
 				if (false == config_data.Read (CsvConfig.KEY_CONFIG_VERSION).Equals (DataManager.Instance.config.Read (CsvConfig.KEY_CONFIG_VERSION)) || CONFIG_UPDATE == true) {
+					Debug.LogError ("update config");
 					config_data.Save (CsvConfig.FILE_NAME);
 					DataManager.Instance.config.Load (CsvConfig.FILE_NAME);
 					m_eStep = STEP.CHECK_UPDATE;

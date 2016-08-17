@@ -92,6 +92,7 @@ public class SaveMain : PageBase {
 					m_eType = SaveBanner.TYPE.LOAD;
 				}
 				m_closeButton = PrefabManager.Instance.MakeObject ("prefab/CloseButton", m_goDispRoot).GetComponent<ButtonBase> ();
+				m_closeButton.transform.localPosition = new Vector3 (0.0f, -47.0f, 0.0f);
 				m_eStep = STEP.IDLE;
 				if (m_bLoadOnly == false) {
 					NendAdInterstitial.Instance.Show (DataManager.Instance.SPOTID_MENU);
@@ -184,7 +185,7 @@ public class SaveMain : PageBase {
 			if (bInit) {
 				SpriteManager.Instance.Unload (TEMP_SCREENSHOT_NAME);
 				if (m_bLoadOnly == false) {
-					NendAdInterstitial.Instance.Show (DataManager.Instance.SPOTID_MENU);
+					//NendAdInterstitial.Instance.Show (DataManager.Instance.SPOTID_MENU);
 				}
 				m_bIsEnd = true;
 			}

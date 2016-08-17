@@ -110,6 +110,7 @@ public class SkitRoot : Singleton<SkitRoot> {
 
 		case TYPE.STAND:
 			AdManager.Instance.ShowIcon (GameMain.Instance.m_eAdType, false);
+			AdManager.Instance.ShowBanner( GameMain.Instance.m_eAdType , false);
 			m_goStand.SetActive (true);
 			m_fMessageSpeed = DataManager.Instance.config.ReadFloat ("message_speed_window");
 			m_lbText = m_lbTextStand;

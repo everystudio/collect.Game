@@ -889,7 +889,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 519d1953a8b0a8c42aa969210b3e191c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CONFIG_UPDATE: 1
+  CONFIG_UPDATE: 0
   SCENARIO_UPDATE: 0
   m_eStep: 0
   m_eStepPre: 0
