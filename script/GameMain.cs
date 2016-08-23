@@ -317,6 +317,10 @@ public class GameMain : Singleton<GameMain> {
 
 		return true;
 	}
+	protected override bool GetDontDestroy()
+	{
+		return false;
+	}
 
 	// Use this for initialization
 	public override void Initialize ()

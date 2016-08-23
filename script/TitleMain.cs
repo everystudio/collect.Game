@@ -39,6 +39,11 @@ public class TitleMain : MonoBehaviourEx {
 		m_eStep = STEP.APPEAR;
 		m_eStepPre = STEP.MAX;
 
+		if(DataManager.Instance.data_kvs.HasKey("trueend"))
+		{
+			SoundManager.Instance.PlayBGM("feels_happiness_short_song_kyoko", "https://s3-ap-northeast-1.amazonaws.com/every-studio/app/sound/song");
+		}
+
 		m_ButtonManager.ButtonInit ();
 		m_ButtonManager.TriggerClearAll ();
 
@@ -155,6 +160,7 @@ public class TitleMain : MonoBehaviourEx {
 			if (bInit) {
 				Debug.LogError ("here");
 				SceneManager.LoadScene ("game");
+				SoundManager.Instance.StopBGM();
 			}
 			break;
 		case STEP.MAX:
