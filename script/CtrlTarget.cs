@@ -103,12 +103,13 @@ public class CtrlTarget : ButtonBase {
 				m_fTimer = 0.0f;
 				m_fTimerAnimation = m_fMoveInterval;
 				m_iAnimationFrame = -1;		// 最初のみ
-
+					/*
 				if (m_vecPosition.x < m_vecTarget.x) {
 					myTransform.localScale = new Vector3 (-1.0f, 1.0f, 1.0f);
 				} else {
 					myTransform.localScale = new Vector3 ( 1.0f, 1.0f, 1.0f);
 				}
+				*/
 			}
 
 			m_fTimerAnimation += Time.deltaTime;

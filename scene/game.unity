@@ -6498,7 +6498,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1307027255}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2, y: 0, z: 0}
+  m_LocalPosition: {x: -1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -7270,33 +7270,6 @@ MonoBehaviour:
       PublicKeyToken=null
   m_intIndex: 0
   m_bButtonClicked: 0
---- !u!114 &1542328913
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1542328910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4c4ff40739c7904ca26c14ffbdc4176, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 1542328910}
-  functionName: OnClickButton
-  trigger: 0
-  includeChildren: 0
---- !u!65 &1542328914
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1542328910}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 150, y: 300, z: 0}
-  m_Center: {x: 0, y: 150, z: 0}
 --- !u!114 &1542328916 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 11439468, guid: 99148a3971d23a645af80f5d2f1cf2b1,
@@ -7656,33 +7629,6 @@ MonoBehaviour:
       PublicKeyToken=null
   m_intIndex: 0
   m_bButtonClicked: 0
---- !u!114 &1603202772
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1603202769}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4c4ff40739c7904ca26c14ffbdc4176, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 1603202769}
-  functionName: OnClickButton
-  trigger: 0
-  includeChildren: 0
---- !u!65 &1603202773
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1603202769}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 150, y: 300, z: 0}
-  m_Center: {x: 0, y: 150, z: 0}
 --- !u!114 &1603202775 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 11439468, guid: 99148a3971d23a645af80f5d2f1cf2b1,
@@ -7801,33 +7747,6 @@ MonoBehaviour:
       PublicKeyToken=null
   m_intIndex: 0
   m_bButtonClicked: 0
---- !u!114 &1622694856
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1622694853}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4c4ff40739c7904ca26c14ffbdc4176, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 1622694853}
-  functionName: OnClickButton
-  trigger: 0
-  includeChildren: 0
---- !u!65 &1622694857
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1622694853}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 150, y: 300, z: 0}
-  m_Center: {x: 0, y: 150, z: 0}
 --- !u!114 &1622694859 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 11439468, guid: 99148a3971d23a645af80f5d2f1cf2b1,
