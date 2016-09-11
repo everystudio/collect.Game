@@ -7,11 +7,11 @@ public class GoogleAnalytics : GoogleAnalyticsBase<GoogleAnalytics> {
 	{
 		base.Initialize ();
 		propertyID_Common = "UA-77286676-7";
-		propertyID_Android = "UA-77286676-5";
-		propertyID_iOS = "UA-77286676-6";
+		propertyID_Android = "UA-77286676-14";
+		propertyID_iOS = "UA-77286676-15";
 
-		bundleID ="jp.everystudio.collect.summer";
-		appName = "ナツヤスミ、いりませんか？";
+		bundleID ="jp.everystudio.collect.mister";
+		appName = "壊すミスターラビットの夢";
 		appVersion = "1";
 
 		Invoke ("heartbeat", HEARTBEAT_INTERVAL);

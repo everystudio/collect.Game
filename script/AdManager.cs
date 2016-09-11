@@ -23,6 +23,13 @@ public class AdManager : Singleton<AdManager> {
 
 	#endregion
 
+
+
+	protected override bool GetDontDestroy()
+	{
+		return false;
+	}
+
 	public override void Initialize ()
 	{
 		base.Initialize ();
@@ -51,6 +58,7 @@ public class AdManager : Singleton<AdManager> {
 	#if UNITY_ANDROID
 	public bool m_bIsIcon;
 	#endif
+
 
 	public bool ShowIcon(DataManager.AD_TYPE _eAdType,bool _bDisp ){
 

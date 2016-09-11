@@ -85,6 +85,7 @@ public class ChapterMain : PageBase {
 			if (m_chapterCheck.IsEnd ()) {
 				Destroy (m_chapterCheck.gameObject);
 				m_eStep = STEP.IDLE;
+					m_eStep = STEP.END;
 			}
 			break;
 		case STEP.END:

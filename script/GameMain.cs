@@ -147,6 +147,7 @@ public class GameMain : Singleton<GameMain> {
 		m_gameData.target_max = GetTargetMax (m_gameData.script_id);
 		m_iScriptIndexMax = m_scriptData.GetMaxIndex (m_gameData.script_id);
 		m_iTargetNext = GetNextTarget (m_gameData.script_index, m_iScriptIndexMax, m_gameData.target_max);
+		SetChapterName(_iScriptId);
 		return;
 	}
 
@@ -270,7 +271,11 @@ public class GameMain : Singleton<GameMain> {
 	}
 
 	public int GetTargetMax( int _iScriptId ){
-		return DataManager.Instance.config.ReadInt (string.Format ("story{0:D3}_target_max", _iScriptId));
+
+		string strKey = string.Format("story{0:D3}_target_max", _iScriptId);
+		int num = DataManager.Instance.config.ReadInt(strKey); 
+		//Debug.LogError(string.Format("key:{0} param:{1}", strKey, num));
+		return num;
 	}
 
 
@@ -318,6 +323,10 @@ public class GameMain : Singleton<GameMain> {
 		}
 
 		return true;
+	}
+	protected override bool GetDontDestroy()
+	{
+		return false;
 	}
 
 	// Use this for initialization

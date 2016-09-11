@@ -5,17 +5,17 @@ public class DataManager : DataManagerBase<DataManager> {
 
 
 	#if UNITY_ANDROID
-	public readonly string APIKEY_GAMESTART = "b21aa6bf51bd0d8b3ff419e06a86d56fcc612909";
-	public readonly string SPOTID_GAMESTART = "637720";
-	public readonly string APIKEY_MENU = "d5d77477d05514852f260b95f7ef429b07444c3e";
-	public readonly string SPOTID_MENU = "637721";
-	#elif UNITY_IPHONE
-	public readonly string APIKEY_GAMESTART = "13aa0f0bfc70a5722ee6602acc756e232f7fc927";
-	public readonly string SPOTID_GAMESTART = "637714";
-	public readonly string APIKEY_MENU = "2324679d079bb875a4880128f634be3d7534ea2e";
-	public readonly string SPOTID_MENU = "637715";
-	#else
-	#endif
+	public readonly string APIKEY_GAMESTART = "6bc21d3ae37f08f54093ce91322989480d6bcc39";
+	public readonly string SPOTID_GAMESTART = "652167";
+	public readonly string APIKEY_MENU = "fbe014d0d97363fb83bbbe8b90d1250bbdb8007d";
+	public readonly string SPOTID_MENU = "652168";
+#elif UNITY_IPHONE
+	public readonly string APIKEY_GAMESTART = "7c15c03b62aea3cf45eac44bf454b80dabd46e7b";
+	public readonly string SPOTID_GAMESTART = "652163";
+	public readonly string APIKEY_MENU = "76816196f73fc265fe0e739dddab5bbabede37c2";
+	public readonly string SPOTID_MENU = "652164";
+#else
+#endif
 
 	public readonly string SPREAD_SHEET = "1otKwiwW0U1K8RfeKaD2UbekCw9tNljENQvtYcnGqJys";
 	public readonly string SPREAD_SHEET_CONFIG_SHEET = "oqo0ytr";
