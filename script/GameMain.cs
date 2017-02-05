@@ -271,13 +271,11 @@ public class GameMain : Singleton<GameMain> {
 	}
 
 	public int GetTargetMax( int _iScriptId ){
-
 		string strKey = string.Format("story{0:D3}_target_max", _iScriptId);
 		int num = DataManager.Instance.config.ReadInt(strKey); 
 		//Debug.LogError(string.Format("key:{0} param:{1}", strKey, num));
 		return num;
 	}
-
 
 	private int GetNextTarget (int _iScriptIndex ,int _iScriptIndexMax, int _iTargetMax ){
 		if (_iTargetMax <= 0) {
@@ -309,7 +307,10 @@ public class GameMain : Singleton<GameMain> {
 	}
 
 	private void AddChapter ( int _iScriptId , int _iChapterId){
+
 		if (DataManager.Instance.kvs_data.HasKey (CsvChapter.GetChapterKey (_iChapterId)) == false ) {
+			// チャプターを超えたときだけ表示される
+			Firebase.Analytics.FirebaseAnalytics.LogEvent("clear_chapter", "chapter_id", _iChapterId);
 			DataManager.Instance.kvs_data.WriteInt (CsvChapter.GetChapterKey (_iChapterId),  _iScriptId);
 			DataManager.Instance.kvs_data.Save (DataKvs.FILE_NAME);
 		}
