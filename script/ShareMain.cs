@@ -91,8 +91,9 @@ public class ShareMain : PageBase {
 			}
 			if (m_bScreenshot) {
 				m_eStep = STEP.IDLE;
-				NendAdInterstitial.Instance.Show(DataManager.Instance.SPOTID_MENU);
-				m_goDispRoot.SetActive (true);
+				//NendAdInterstitial.Instance.Show(DataManager.Instance.SPOTID_MENU);
+					AdManager.Instance.CallInterstitial();
+					m_goDispRoot.SetActive (true);
 			}
 			break;
 

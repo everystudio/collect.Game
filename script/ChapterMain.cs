@@ -44,8 +44,8 @@ public class ChapterMain : PageBase {
 			m_btnManager.AddButtonBase (script.gameObject);
 		}
 		m_btnManager.ButtonInit ();
-		NendAdInterstitial.Instance.Show(DataManager.Instance.SPOTID_MENU);
-
+		//NendAdInterstitial.Instance.Show(DataManager.Instance.SPOTID_MENU);
+		AdManager.Instance.CallInterstitial();
 	}
 
 	public override void PageEnd ()

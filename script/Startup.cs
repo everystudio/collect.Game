@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using EveryStudioLibrary;
 using NendUnityPlugin.AD;
 using UnityEngine.Advertisements;
+using GoogleMobileAds.Api;
 
 public class Startup : Singleton<Startup> {
 
@@ -23,6 +24,7 @@ public class Startup : Singleton<Startup> {
 
 		CHECK_UPDATE	,
 		GOTO_GAME		,
+		GOTO_GAME2,
 		NETWORK_ERROR	,
 		END				,
 		MAX				,
@@ -34,6 +36,7 @@ public class Startup : Singleton<Startup> {
 	public CsvScript m_scriptData;
 	public SetupWaiting m_setupWaiting;
 
+	private float m_fTimer;
 	private FileDownload fd;
 	public ButtonBase m_btnNetworkError;
 
@@ -74,13 +77,11 @@ public class Startup : Singleton<Startup> {
 		case STEP.CHECK_CONFIG:
 			if (bInit) {
 
-				NendAdInterstitial.Instance.Load (DataManager.Instance.APIKEY_GAMESTART, DataManager.Instance.SPOTID_GAMESTART);
-				NendAdInterstitial.Instance.Load (DataManager.Instance.APIKEY_MENU, DataManager.Instance.SPOTID_MENU);
-
-				#if UNITY_ANDROID
-				#elif UNITY_IPHONE
-				#else
-				#endif
+					InterstitialLoad();
+#if UNITY_ANDROID
+#elif UNITY_IPHONE
+#else
+#endif
 				m_iNetworkSerial = CommonNetwork.Instance.RecieveSpreadSheet (DataManager.Instance.SPREAD_SHEET,DataManager.Instance.SPREAD_SHEET_CONFIG_SHEET);
 			}
 
@@ -234,12 +235,29 @@ public class Startup : Singleton<Startup> {
 			}
 			break;
 
-		case STEP.GOTO_GAME:
-			if (bInit) {
-				SceneManager.LoadScene ("title");
-			}
-			break;
-		case STEP.NETWORK_ERROR:
+			case STEP.GOTO_GAME:
+				if (bInit)
+				{
+					m_fTimer = 0.0f;
+				}
+				m_fTimer += Time.deltaTime;
+				if( 5.0f < m_fTimer)
+				{
+					m_eStep = STEP.GOTO_GAME2;
+				}
+				else if( m_bInterstitialLoaded)
+				{
+					m_eStep = STEP.GOTO_GAME2;
+					CallInterstitial();
+				}
+				break;
+			case STEP.GOTO_GAME2:
+				if (bInit)
+				{
+					SceneManager.LoadScene("title");
+				}
+				break;
+			case STEP.NETWORK_ERROR:
 			if (bInit) {
 				m_btnNetworkError.gameObject.SetActive (true);
 				m_btnNetworkError.TriggerClear ();
@@ -253,8 +271,55 @@ public class Startup : Singleton<Startup> {
 		case STEP.MAX:
 		default:
 			break;
-		
-				}
+		}
+	}
+
+	private bool m_bInterstitialLoaded = false;
+	private InterstitialAd interstitial;
+
+	public void CallInterstitial()
+	{
+		if (m_bInterstitialLoaded == true)
+		{
+			interstitial.OnAdClosed += ViewInterstitial_OnAdClosed;
+			interstitial.Show();
+		}
+	}
+	private void InterstitialLoad()
+	{
+		// 通常表示
+#if UNITY_ANDROID
+		string adUnitId = "ca-app-pub-5869235725006697/3108797168";
+#elif UNITY_IPHONE
+		string adUnitId = "ca-app-pub-5869235725006697/8876129164";
+#endif
+		// Create an interstitial.
+		interstitial = new InterstitialAd(adUnitId);
+		// Create an empty ad request.
+		AdRequest request = AdManager.GetAdRequest();
+
+		// Load the interstitial with the request.
+		interstitial.LoadAd(request);
+		interstitial.OnAdLoaded += ViewInterstitial_OnAdLoaded;
+		interstitial.OnAdFailedToLoad += ViewInterstitial_OnAdFailedToLoad;
 
 	}
+
+	private void ViewInterstitial_OnAdLoaded(object sender, System.EventArgs e)
+	{
+		m_bInterstitialLoaded = true;
+	}
+	private void ViewInterstitial_OnAdFailedToLoad(object sender, System.EventArgs e)
+	{
+		Debug.LogError("fail");
+	}
+	private void ViewInterstitial_OnAdClosed(object sender, System.EventArgs e)
+	{
+		InterstitialAd inter = (InterstitialAd)sender;
+		inter.Destroy();
+		m_bInterstitialLoaded = false;
+		//InterstitialLoad();
+	}
+
+
 }

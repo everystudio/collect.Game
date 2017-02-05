@@ -95,9 +95,10 @@ public class SaveMain : PageBase {
 				m_closeButton.transform.localPosition = new Vector3 (0.0f, -47.0f, 0.0f);
 				m_eStep = STEP.IDLE;
 				if (m_bLoadOnly == false) {
-					NendAdInterstitial.Instance.Show (DataManager.Instance.SPOTID_MENU);
+					//NendAdInterstitial.Instance.Show (DataManager.Instance.SPOTID_MENU);
+						AdManager.Instance.CallInterstitial();
+					}
 				}
-			}
 			break;
 		case STEP.IDLE:
 			if (m_eType == SaveBanner.TYPE.SAVE) {

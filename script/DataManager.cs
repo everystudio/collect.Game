@@ -8,12 +8,10 @@ public class DataManager : DataManagerBase<DataManager> {
 	public readonly string APIKEY_GAMESTART = "6bc21d3ae37f08f54093ce91322989480d6bcc39";
 	public readonly string SPOTID_GAMESTART = "652167";
 	public readonly string APIKEY_MENU = "fbe014d0d97363fb83bbbe8b90d1250bbdb8007d";
-	public readonly string SPOTID_MENU = "652168";
 #elif UNITY_IPHONE
 	public readonly string APIKEY_GAMESTART = "7c15c03b62aea3cf45eac44bf454b80dabd46e7b";
 	public readonly string SPOTID_GAMESTART = "652163";
 	public readonly string APIKEY_MENU = "76816196f73fc265fe0e739dddab5bbabede37c2";
-	public readonly string SPOTID_MENU = "652164";
 #else
 #endif
 
