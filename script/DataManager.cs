@@ -3,7 +3,7 @@ using System.Collections;
 
 public class DataManager : DataManagerBase<DataManager> {
 
-	public readonly string SPREAD_SHEET = "1jujJTr4I9mzDVw9lbt03PovFIcqZ6fkiJartqkUnAXQ";
+	public readonly string SPREAD_SHEET = "1kiGsjCglkVv7TtrZbpdAM70acmkPtdDHnVah0WB_FGo";
 	public readonly string SPREAD_SHEET_CONFIG_SHEET = "oqo0ytr";
 
 	public readonly string FILENAME_SCENARIO = "ScenarioFile";
