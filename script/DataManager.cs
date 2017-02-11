@@ -3,19 +3,7 @@ using System.Collections;
 
 public class DataManager : DataManagerBase<DataManager> {
 
-
-	#if UNITY_ANDROID
-	public readonly string APIKEY_GAMESTART = "6bc21d3ae37f08f54093ce91322989480d6bcc39";
-	public readonly string SPOTID_GAMESTART = "652167";
-	public readonly string APIKEY_MENU = "fbe014d0d97363fb83bbbe8b90d1250bbdb8007d";
-#elif UNITY_IPHONE
-	public readonly string APIKEY_GAMESTART = "7c15c03b62aea3cf45eac44bf454b80dabd46e7b";
-	public readonly string SPOTID_GAMESTART = "652163";
-	public readonly string APIKEY_MENU = "76816196f73fc265fe0e739dddab5bbabede37c2";
-#else
-#endif
-
-	public readonly string SPREAD_SHEET = "1otKwiwW0U1K8RfeKaD2UbekCw9tNljENQvtYcnGqJys";
+	public readonly string SPREAD_SHEET = "1jujJTr4I9mzDVw9lbt03PovFIcqZ6fkiJartqkUnAXQ";
 	public readonly string SPREAD_SHEET_CONFIG_SHEET = "oqo0ytr";
 
 	public readonly string FILENAME_SCENARIO = "ScenarioFile";
@@ -62,7 +50,6 @@ public class DataManager : DataManagerBase<DataManager> {
 	public readonly string GA_PAGE_SAVELOAD = "page_saveload";
 	public readonly string GA_SAVE= "play_save";
 	public readonly string GA_LOAD= "play_load";
-	public readonly string GA_SCRIPT_START_FORMAT = "script_start_{0:D4}_{1:D4}";
 
 	public readonly string KEY_ADD_TARGET = "key_add_target";
 	public readonly string KEY_TARGET_DEFAULT_NUM = "target_limit";
@@ -80,21 +67,10 @@ public class DataManager : DataManagerBase<DataManager> {
 		kvs_data.Load (DataKvs.FILE_NAME);
 
 		config.Load (CsvConfig.FILE_NAME);
-
-		LoadChapter ();
-
-		m_eActiveAdType = AD_TYPE.NEND;
+		m_csvChapter.Load (CsvChapter.FILE_NAME);
 
 		return;
 	}
-
-	public AD_TYPE m_eActiveAdType;
-
-	public void LoadChapter(){
-		m_csvChapter.Load (CsvChapter.FILE_NAME);
-	}
-
-
 
 	public int ShareBonusAddTargetNum(){
 		if( config.HasKey( KEY_SHAREBONUS_ADD_TARGET_NUM )){

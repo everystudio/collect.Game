@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
-using NendUnityPlugin.AD;
 
 public class TitleMain : MonoBehaviourEx {
 
@@ -45,7 +44,7 @@ public class TitleMain : MonoBehaviourEx {
 		if (!DataManager.Instance.kvs_data.HasKey (DataManager.Instance.KEY_SCRIPT_ID) || DataManager.Instance.kvs_data.ReadInt (DataManager.Instance.KEY_SCRIPT_ID) == 0 ) {
 			m_goContinue.SetActive (false);
 		}
-		NendAdInterstitial.Instance.Show(DataManager.Instance.SPOTID_GAMESTART);
+
 	}
 	
 	// Update is called once per frame
@@ -153,8 +152,9 @@ public class TitleMain : MonoBehaviourEx {
 
 		case STEP.GOTO_GAME:
 			if (bInit) {
-				Debug.LogError ("here");
-				SceneManager.LoadScene ("game");
+				if (bInit) {
+					SceneManager.LoadScene ("game");
+				}
 			}
 			break;
 		case STEP.MAX:

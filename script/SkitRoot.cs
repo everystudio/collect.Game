@@ -9,8 +9,6 @@ public class SkitRoot : Singleton<SkitRoot> {
 		NONE		,
 		SETUP		,
 		DISP		,
-		STAND		,
-		NAME		,
 		IDLE		,
 		CHECK		,
 		END			,
@@ -26,7 +24,6 @@ public class SkitRoot : Singleton<SkitRoot> {
 		NONE		= 0,
 		WINDOW		,
 		ALL			,
-		STAND		,
 		MAX			,
 	}
 	public TYPE m_eType;
@@ -41,51 +38,35 @@ public class SkitRoot : Singleton<SkitRoot> {
 
 	public GameObject m_goAll;
 	public GameObject m_goWindow;
-	public GameObject m_goStand;
 	public UILabel m_lbTextWindow;
 	public UILabel m_lbTextAll;
-	public UILabel m_lbTextStand;
-	public UILabel m_lbTextStandName;
 	public ButtonBase m_btnNextWindow;
 	public ButtonBase m_btnPrevWindow;
 	public ButtonBase m_btnEndWindow;
 	public ButtonBase m_btnNextAll;
 	public ButtonBase m_btnPrevAll;
 	public ButtonBase m_btnEndAll;
-	public ButtonBase m_btnNextStand;
-	public ButtonBase m_btnPrevStand;
-	public ButtonBase m_btnEndStand;
 
-	public UILabel m_lbTextName;
 	public UILabel m_lbText;
 	public ButtonBase m_btnPrev;
 	public ButtonBase m_btnNext;
 	public ButtonBase m_btnEnd;
 
-	public UI2DSprite m_sprStandLeft;
-	public UI2DSprite m_sprStandRight;
-
 	public string m_strMessage;
-	public string m_strNameBuf;
 	public string m_strMessageBuf;
-
-	public List<CsvScriptParam> m_scriptParamList = new List<CsvScriptParam> ();
+	public List<string> m_strMessageList = new List<string> ();
 	public int m_iIndex;
 	public int m_iMessageIndex;
 	public float m_fTimer;
 	public bool m_bClose;
 
-	public void SkitStart( List<CsvScriptParam>  _scriptParamList , TYPE _eType ){
+	public void SkitStart( List<string> _strMessageList , TYPE _eType ){
 		// いったん閉じる
 		Close ();
-		m_eStep = STEP.CHECK;
+		m_eStep = STEP.DISP;
 		m_iIndex = 0;
-		m_scriptParamList = _scriptParamList;
+		m_strMessageList = _strMessageList;
 		m_goRoot.SetActive (true);
-
-		m_goWindow.SetActive (false);
-		m_goAll.SetActive (false);
-		m_goStand.SetActive (false);
 
 		m_eType = _eType;
 		switch (m_eType) {
@@ -107,18 +88,6 @@ public class SkitRoot : Singleton<SkitRoot> {
 			m_btnNext = m_btnNextAll;
 			m_btnEnd = m_btnEndAll;
 			break;
-
-		case TYPE.STAND:
-			AdManager.Instance.ShowIcon (GameMain.Instance.m_eAdType, false);
-			AdManager.Instance.ShowBanner( GameMain.Instance.m_eAdType , false);
-			m_goStand.SetActive (true);
-			m_fMessageSpeed = DataManager.Instance.config.ReadFloat ("message_speed_window");
-			m_lbText = m_lbTextStand;
-			m_btnPrev = m_btnPrevStand;
-			m_btnNext = m_btnNextStand;
-			m_btnEnd = m_btnEndStand;
-			break;
-
 		default:
 			break;
 		}
@@ -126,8 +95,6 @@ public class SkitRoot : Singleton<SkitRoot> {
 		m_btnEnd.gameObject.SetActive (false);
 
 		m_lbText.text = "";
-
-		callStand (ref m_iIndex);
 	}
 
 	public void Close(){
@@ -185,38 +152,6 @@ public class SkitRoot : Singleton<SkitRoot> {
 		m_btnPrevAll.TriggerClear();
 		m_btnEndAll.TriggerClear();
 	}
-
-	private void callStand( ref int _iIndex ){
-		if (_iIndex == m_scriptParamList.Count) {
-			return;
-		}
-		if (!m_scriptParamList [m_iIndex].command.Equals ("stand")) {
-			return;
-		}
-
-		if (m_scriptParamList [m_iIndex].param.Equals ("")) {
-			if (m_scriptParamList [m_iIndex].option1.Equals ("left")) {
-				Debug.LogError ("left hide");
-				m_sprStandLeft.gameObject.SetActive (false);
-			} else {
-				m_sprStandRight.gameObject.SetActive (false);
-				Debug.LogError ("right hide");
-			}
-		} else {
-			// 強制でstandフォルダ以下とします
-			string strLoadFilename = string.Format ("stand/{0}", m_scriptParamList [m_iIndex].param);
-			Debug.LogError (strLoadFilename);
-			if (m_scriptParamList [m_iIndex].option1.Equals ("left")) {
-				m_sprStandLeft.gameObject.SetActive (true);
-				m_sprStandLeft.sprite2D = SpriteManager.Instance.Load (strLoadFilename);
-			} else {
-				m_sprStandRight.gameObject.SetActive (true);
-				m_sprStandRight.sprite2D = SpriteManager.Instance.Load (strLoadFilename);
-			}
-		}
-		_iIndex += 1;
-		callStand (ref _iIndex);
-	}
 	// Update is called once per frame
 	void Update () {
 
@@ -230,56 +165,12 @@ public class SkitRoot : Singleton<SkitRoot> {
 		case STEP.NONE:
 			break;
 		case STEP.SETUP:
-			m_eStep = STEP.CHECK;
-			break;
-
-		case STEP.CHECK:
-			m_strNameBuf = "";
-			if (m_iIndex == m_scriptParamList.Count) {
-				m_eStep = STEP.END;
-			} else {
-				string command = m_scriptParamList [m_iIndex].command;
-				if (command.Equals ("stand")) {
-					//m_eStep = STEP.STAND;
-					callStand (ref m_iIndex);
-					//Debug.LogError ("goto stand");
-				} else if (command.Equals ("name")) {
-					m_eStep = STEP.NAME;
-				} else {
-					m_eStep = STEP.DISP;
-				}
-			}
-			break;
-
-		case STEP.STAND:
-			m_eStep = STEP.CHECK;
-
-			break;
-
-		case STEP.NAME:
-			m_strNameBuf = m_scriptParamList [m_iIndex].param;
-			m_iIndex += 1;
 			m_eStep = STEP.DISP;
 			break;
 
 		case STEP.DISP:
-			
 			if (bInit) {
-				if (!m_strNameBuf.Equals ("") || !m_scriptParamList [m_iIndex].option1.Equals ("")) {
-					m_strNameBuf = !m_strNameBuf.Equals ("") ? m_strNameBuf : m_scriptParamList [m_iIndex].option1;
-				} else {
-					m_strNameBuf = "";
-				}
-
-				m_lbTextName.text = m_strNameBuf;
-				m_strMessageBuf = "";
-				//m_strMessageBuf = m_scriptParamList [m_iIndex].param;
-				string [] arr = m_scriptParamList [m_iIndex].param.Split ('|');
-				foreach (string str in arr) {
-					m_strMessageBuf += str;
-					m_strMessageBuf += "\n";
-				}
-
+				m_strMessageBuf = m_strMessageList [m_iIndex];
 				m_iMessageIndex = 0;
 				m_strMessage = "";
 				m_fTimer = 0.0f;
@@ -325,7 +216,7 @@ public class SkitRoot : Singleton<SkitRoot> {
 					m_btnPrev.gameObject.SetActive (false);
 				}
 
-				if (m_scriptParamList.Count == m_iIndex + 1) {
+				if (m_strMessageList.Count == m_iIndex + 1) {
 					m_btnEnd.gameObject.SetActive (true);
 				} else {
 					m_btnEnd.gameObject.SetActive (false);
@@ -340,15 +231,15 @@ public class SkitRoot : Singleton<SkitRoot> {
 			if (m_btnNext.ButtonPushed) {
 				SoundHolder.Instance.Call (DataManager.Instance.SOUND_NAME_CURSOR);
 				m_iIndex += 1;
-				if (m_iIndex == m_scriptParamList.Count) {
+				if (m_iIndex == m_strMessageList.Count) {
 					m_eStep = STEP.END;
 				} else {
-					m_eStep = STEP.CHECK;
+					m_eStep = STEP.DISP;
 				}
 			} else if (m_btnPrev.ButtonPushed) {
 				SoundHolder.Instance.Call (DataManager.Instance.SOUND_NAME_CANCEL);
 				m_iIndex -= 1;
-				m_eStep = STEP.CHECK;
+				m_eStep = STEP.DISP;
 			} else if (m_btnEnd.ButtonPushed) {
 				SoundHolder.Instance.Call (DataManager.Instance.SOUND_NAME_CURSOR);
 				m_eStep = STEP.END;

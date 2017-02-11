@@ -49,15 +49,8 @@ public class ShareMain : PageBase {
 		m_eStep = STEP.SCREENSHOT;
 		m_eStepPre = STEP.MAX;
 		base.PageStart ();
-
 		m_lbText.text = "シェアしてリンゴ出現！";
-		if (DataManager.Instance.config.HasKey ("share_title")) {
-			m_lbText.text = DataManager.Instance.config.Read ("share_title");
-		}
 		m_lbTextDesc.text = "シェアするとリンゴが出現してストーリーを進めることができます";
-		if (DataManager.Instance.config.HasKey ("share_text")) {
-			m_lbTextDesc.text = DataManager.Instance.config.Read ("share_text");
-		}
 		m_closeButton = PrefabManager.Instance.MakeObject ("prefab/CloseButton" , m_goDispRoot ).GetComponent<ButtonBase>();
 		m_btnManager.ButtonRefresh ();
 		foreach( string strText in BUTTON_LIST ){
@@ -91,9 +84,8 @@ public class ShareMain : PageBase {
 			}
 			if (m_bScreenshot) {
 				m_eStep = STEP.IDLE;
-				//NendAdInterstitial.Instance.Show(DataManager.Instance.SPOTID_MENU);
-					AdManager.Instance.CallInterstitial();
-					m_goDispRoot.SetActive (true);
+				NendAdInterstitial.Instance.Show();
+				m_goDispRoot.SetActive (true);
 			}
 			break;
 
@@ -103,7 +95,7 @@ public class ShareMain : PageBase {
 				m_btnManager.TriggerClearAll ();
 			}
 			if (m_closeButton.ButtonPushed) {
-				//NendAdInterstitial.Instance.Show(DataManager.Instance.SPOTID_MENU);
+				NendAdInterstitial.Instance.Show();
 
 				m_eStep = STEP.END;
 			} else if (m_btnManager.ButtonPushed) {

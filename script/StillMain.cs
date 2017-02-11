@@ -24,9 +24,6 @@ public class StillMain : WindowBase {
 	[SerializeField]
 	UI2DSprite m_sprite;
 
-	private bool m_bShowIcon;
-	private bool m_bShowBanner;
-
 	/*
 	void Start(){
 		Initialize ("screenshot.png");
@@ -50,12 +47,6 @@ public class StillMain : WindowBase {
 		m_sprite.sprite2D = SpriteManager.Instance.Load (_strStillName);
 		m_sprite.width = (int)m_sprite.sprite2D.rect.width;
 		m_sprite.height = (int)m_sprite.sprite2D.rect.height;
-
-		m_bShowIcon = AdManager.Instance.ShowIcon (DataManager.Instance.m_eActiveAdType, false);
-		if (1000 < m_sprite.height) {
-			m_bShowBanner = AdManager.Instance.ShowBanner(DataManager.Instance.m_eActiveAdType, false);
-		}
-
 		if (m_bQuick) {
 			m_eStep = STEP.IDLE;
 		} else {
@@ -79,13 +70,6 @@ public class StillMain : WindowBase {
 
 	protected override void windowEnd ()
 	{
-		if (m_bShowIcon) {
-			AdManager.Instance.ShowIcon (DataManager.Instance.m_eActiveAdType, true);
-		}
-		if (m_bShowBanner) {
-			AdManager.Instance.ShowBanner (DataManager.Instance.m_eActiveAdType, true);
-		}
-
 		return;
 	}
 
@@ -106,7 +90,6 @@ public class StillMain : WindowBase {
 				m_eStep = STEP.WAIT;
 			} else if (m_btnSprite.ButtonPushed) {
 				m_eStep = STEP.CLOSE;
-				m_eStep = STEP.IDLE;
 			} else {
 			}
 			break;
@@ -114,14 +97,12 @@ public class StillMain : WindowBase {
 		case STEP.WAIT:
 			if (bInit) {
 				m_fTimer = 0.0f;
-				m_btnSprite.TriggerClear ();
 			}
 			m_fTimer += Time.deltaTime;
 			if (5.0f < m_fTimer) {
 				m_eStep = STEP.IDLE;
 			} else if (m_btnSprite.ButtonPushed) {
 				m_eStep = STEP.CLOSE;
-				m_eStep = STEP.IDLE;
 			} else {
 			}
 			break;
@@ -130,7 +111,6 @@ public class StillMain : WindowBase {
 				//TweenAlphaAll (m_btnClose.gameObject, 1.0f, 1.0f);
 				m_btnClose.gameObject.SetActive(true);
 				m_btnClose.TriggerClear ();
-				m_btnSprite.TriggerClear ();
 			}
 			if (m_btnClose.ButtonPushed) {
 				m_eStep = STEP.CLOSE;

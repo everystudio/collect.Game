@@ -44,8 +44,8 @@ public class ChapterMain : PageBase {
 			m_btnManager.AddButtonBase (script.gameObject);
 		}
 		m_btnManager.ButtonInit ();
-		//NendAdInterstitial.Instance.Show(DataManager.Instance.SPOTID_MENU);
-		AdManager.Instance.CallInterstitial();
+		NendAdInterstitial.Instance.Show();
+
 	}
 
 	public override void PageEnd ()
@@ -85,13 +85,12 @@ public class ChapterMain : PageBase {
 			if (m_chapterCheck.IsEnd ()) {
 				Destroy (m_chapterCheck.gameObject);
 				m_eStep = STEP.IDLE;
-					m_eStep = STEP.END;
 			}
 			break;
 		case STEP.END:
 			if (bInit) {
 				m_bIsEnd = true;
-				//NendAdInterstitial.Instance.Show(DataManager.Instance.SPOTID_MENU);
+				NendAdInterstitial.Instance.Show();
 			}
 			break;
 

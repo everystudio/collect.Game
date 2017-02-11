@@ -135,16 +135,12 @@ public class CtrlCharacter : MonoBehaviourEx {
 				m_vecPosition = m_vecPositionStart;
 				m_fTimer = 0.0f;
 				m_fTimerAnimation = m_Config.ReadFloat ("move_interval");
-				m_iAnimationFrame = -1;     // 最初のみ
-
+				m_iAnimationFrame = -1;		// 最初のみ
 
 				if (m_vecPosition.x < m_vecTarget.x) {
-						m_spriteChara.flip = UIBasicSprite.Flip.Horizontally;
-						//myTransform.localScale = new Vector3 (-1.0f, 1.0f, 1.0f);
+					myTransform.localScale = new Vector3 (-1.0f, 1.0f, 1.0f);
 				} else {
-						m_spriteChara.flip = UIBasicSprite.Flip.Nothing;
-
-						//myTransform.localScale = new Vector3 ( 1.0f, 1.0f, 1.0f);
+					myTransform.localScale = new Vector3 ( 1.0f, 1.0f, 1.0f);
 				}
 			}
 

@@ -49,7 +49,6 @@ public class GameMain : Singleton<GameMain> {
 		BACKGROUND			,
 		CHARACTER			,
 		SELECT				,
-		FLAG_SET			,
 		SOUND_BGM			,
 		SOUND_SE			,
 		ENDING				,
@@ -147,7 +146,6 @@ public class GameMain : Singleton<GameMain> {
 		m_gameData.target_max = GetTargetMax (m_gameData.script_id);
 		m_iScriptIndexMax = m_scriptData.GetMaxIndex (m_gameData.script_id);
 		m_iTargetNext = GetNextTarget (m_gameData.script_index, m_iScriptIndexMax, m_gameData.target_max);
-		SetChapterName(_iScriptId);
 		return;
 	}
 
@@ -271,11 +269,9 @@ public class GameMain : Singleton<GameMain> {
 	}
 
 	public int GetTargetMax( int _iScriptId ){
-		string strKey = string.Format("story{0:D3}_target_max", _iScriptId);
-		int num = DataManager.Instance.config.ReadInt(strKey); 
-		//Debug.LogError(string.Format("key:{0} param:{1}", strKey, num));
-		return num;
+		return DataManager.Instance.config.ReadInt (string.Format ("story{0:D3}_target_max", _iScriptId));
 	}
+
 
 	private int GetNextTarget (int _iScriptIndex ,int _iScriptIndexMax, int _iTargetMax ){
 		if (_iTargetMax <= 0) {
@@ -291,8 +287,6 @@ public class GameMain : Singleton<GameMain> {
 			return SkitRoot.TYPE.WINDOW;
 		case "all":
 			return SkitRoot.TYPE.ALL;
-		case "stand":
-			return SkitRoot.TYPE.STAND;
 		default:
 			break;
 		}
@@ -307,10 +301,7 @@ public class GameMain : Singleton<GameMain> {
 	}
 
 	private void AddChapter ( int _iScriptId , int _iChapterId){
-
 		if (DataManager.Instance.kvs_data.HasKey (CsvChapter.GetChapterKey (_iChapterId)) == false ) {
-			// チャプターを超えたときだけ表示される
-			Firebase.Analytics.FirebaseAnalytics.LogEvent("clear_chapter", "chapter_id", _iChapterId);
 			DataManager.Instance.kvs_data.WriteInt (CsvChapter.GetChapterKey (_iChapterId),  _iScriptId);
 			DataManager.Instance.kvs_data.Save (DataKvs.FILE_NAME);
 		}
@@ -324,10 +315,6 @@ public class GameMain : Singleton<GameMain> {
 		}
 
 		return true;
-	}
-	protected override bool GetDontDestroy()
-	{
-		return false;
 	}
 
 	// Use this for initialization
@@ -479,8 +466,6 @@ public class GameMain : Singleton<GameMain> {
 			break;
 		case STEP.SCRIPT_START:
 			if (bInit) {
-				GoogleAnalytics.Instance.LogScriptStart (m_gameData.script_id,m_gameData.script_index);
-
 				m_objBlackBack.SetActive (true);
 
 				m_bSetScriptIndex = false;
@@ -495,7 +480,7 @@ public class GameMain : Singleton<GameMain> {
 			break;
 		case STEP.SCRIPT_CHECK:
 			if (0 < m_scriptActiveList.Count) {
-				//Debug.Log (m_scriptActiveList [0].command);
+				Debug.Log (m_scriptActiveList [0].command);
 				switch (m_scriptActiveList [0].command) {
 				case "chapter":
 					m_eStep = STEP.CHAPTER_START;
@@ -504,9 +489,7 @@ public class GameMain : Singleton<GameMain> {
 				case "mode":
 					m_eStep = STEP.SKIT_TYPE;
 					break;
-				case "name":
 				case "text":
-				case "stand":
 					m_eStep = STEP.SKIT;
 					break;
 				case "levelup":
@@ -531,9 +514,6 @@ public class GameMain : Singleton<GameMain> {
 				case "select":
 					m_eStep = STEP.SELECT;
 					break;
-				case "flag_set":
-					m_eStep = STEP.FLAG_SET;
-					break;
 				case "bgm":
 					m_eStep = STEP.SOUND_BGM;
 					break;
@@ -544,8 +524,9 @@ public class GameMain : Singleton<GameMain> {
 					m_eStep = STEP.ENDING;
 					break;
 				default:
-					m_scriptActiveList.RemoveAt (0);
-					break;
+							Debug.LogError(string.Format("skipcommand:{0}" , m_scriptActiveList[0].command));
+							m_scriptActiveList.RemoveAt(0);
+							break;
 				}
 			} else {
 				m_eStep = STEP.IDLE;
@@ -573,33 +554,9 @@ public class GameMain : Singleton<GameMain> {
 
 		case STEP.SKIT:
 			if (bInit) {
-				List<CsvScriptParam> list = new List<CsvScriptParam> ();
-
-				while (m_scriptActiveList [0].command == "text" ||
-				       m_scriptActiveList [0].command == "stand" ||
-				       m_scriptActiveList [0].command == "name") {
-
-
-					list.Add (m_scriptActiveList [0]);
-					/*
-					if (m_scriptActiveList [0].command == "text") {
-						string strMessage = "";
-						if (m_scriptActiveList [0].option1.Equals ("") == false) {
-							strName = m_scriptActiveList [0].option1;
-						}
-						if (strName.Equals ("") == false) {
-							strMessage = string.Format ("{0}\n{1}", strName, m_scriptActiveList [0].param);
-							strName = "";
-
-						} else {
-							strMessage = m_scriptActiveList [0].param;
-						}
-						list.Add (strMessage);
-					} else if (m_scriptActiveList [0].command.Equals ("name")) {
-						strName = m_scriptActiveList [0].param;
-					} else {
-					}
-					*/
+				List<string> list = new List<string > ();
+				while (m_scriptActiveList [0].command == "text") {
+					list.Add (m_scriptActiveList [0].param);
 					m_scriptActiveList.RemoveAt (0);
 					if (m_scriptActiveList.Count == 0) {
 						break;
@@ -613,35 +570,12 @@ public class GameMain : Singleton<GameMain> {
 			}
 			break;
 		case STEP.SET_SCRIPT_ID:
-			Debug.LogError (STEP.SET_SCRIPT_ID);
 			int iNextScriptId = -1;
 			if (m_scriptActiveList [0].param.Contains ("select")) {
-				if (DataManager.Instance.kvs_data.HasKey (SelectMain.GetSelectKey (m_scriptActiveList [0].option1))) {
-					foreach (CsvKvsParam param in DataManager.Instance.kvs_data.list) {
-						Debug.LogError (string.Format ("{0}:{1}", param.key, param.value));
-					}
-					Debug.LogError (SelectMain.GetSelectKey (m_scriptActiveList [0].option1));
-					//iNextScriptId = DataManager.Instance.kvs_data.ReadInt (SelectMain.GetSelectKey (m_scriptActiveList [0].option1));
-
-					iNextScriptId = DataManager.Instance.kvs_data.ReadInt( (SelectMain.GetSelectKey (m_scriptActiveList [0].option1)));
-					Debug.LogError ("a");
-				} else {
-					//iNextScriptId = DataManager.Instance.kvs_data.ReadInt (SelectMain.GetSelectKey (m_scriptActiveList [0].option2));
-
-
-					Debug.LogError (m_scriptActiveList [0].serial);
-					Debug.LogError (m_scriptActiveList [0].param);
-					Debug.LogError (m_scriptActiveList [0].option1);
-					Debug.LogError (m_scriptActiveList [0].option2);
-
-					iNextScriptId = int.Parse (m_scriptActiveList [0].option2);
-					Debug.LogError ("b");
-				}
+				iNextScriptId = DataManager.Instance.kvs_data.ReadInt (SelectMain.GetSelectKey (m_scriptActiveList [0].option1));
 			} else {
 				iNextScriptId = int.Parse (m_scriptActiveList [0].param);
-				Debug.LogError ("c");
 			}
-			Debug.LogError (iNextScriptId);
 			if (m_gameData.script_id != iNextScriptId) {
 				m_bSetScriptIndex = true;
 				m_gameData.script_id = iNextScriptId;
@@ -715,43 +649,12 @@ public class GameMain : Singleton<GameMain> {
 				m_eStep = STEP.SCRIPT_CHECK;
 			}
 			break;
-		case STEP.FLAG_SET:
-			bool bOk = true;
-			Debug.LogError ("flag_set");
-			if (!m_scriptActiveList [0].option2.Equals ("")) {
-				string[] checkArr = m_scriptActiveList [0].option2.Split ('-');
-				foreach (string strCheck in checkArr) {
-					if (false == DataManager.Instance.data_kvs.HasKey (strCheck)) {
-						Debug.LogError (strCheck);
-						bOk = false;
-					}
-				}
-				string strKey = SelectMain.GetSelectKey (m_scriptActiveList [0].option1);
-				if (DataManager.Instance.kvs_data.HasKey (strKey)) {
-					iSetScriptIndex = DataManager.Instance.kvs_data.ReadInt (strKey);
-				}
-			}
-			if (bOk) {
-				Debug.LogError (m_scriptActiveList [0].option1);
-				Debug.LogError (m_scriptActiveList [0].param);
-				DataManager.Instance.data_kvs.Write (m_scriptActiveList [0].option1, m_scriptActiveList [0].param);
-			} else {
-				Debug.LogError ("no insert");
-			}
-			m_scriptActiveList.RemoveAt (0);
-			m_eStep = STEP.SCRIPT_CHECK;
-			break;
+
 		case STEP.SOUND_BGM:
 			if (bInit) {
 				m_gameData.bgm_name = m_scriptActiveList [0].param;
 				m_gameData.bgm_path= m_scriptActiveList [0].option1;
-				//Debug.LogError (m_gameData.bgm_name);
-				if (m_gameData.bgm_name.Equals ("") == false) {
-					SoundManager.Instance.StopBGM ();
-					SoundManager.Instance.PlayBGM (m_gameData.bgm_name, m_gameData.bgm_path);
-				} else {
-					SoundManager.Instance.StopBGM ();
-				}
+				SoundManager.Instance.PlayBGM (m_gameData.bgm_name, m_gameData.bgm_path);
 			}
 			m_scriptActiveList.RemoveAt (0);
 			m_eStep = STEP.SCRIPT_CHECK;
@@ -787,7 +690,6 @@ public class GameMain : Singleton<GameMain> {
 			break;
 
 		case STEP.TUTORIAL:
-			/*
 			if (bInit) {
 				List<string> list = new List<string > ();
 				list.Add ("このゲームは画面内にあるターゲットを集めることで左上の経験値がたまります");
@@ -800,8 +702,6 @@ public class GameMain : Singleton<GameMain> {
 				m_eStep = STEP.IDLE;
 				DataManager.Instance.data_kvs.Write ("tutorial_end" , "end");
 			}
-			*/
-			m_eStep = STEP.IDLE;
 			break;
 
 		case STEP.SHARE_EXPAND:

@@ -2,7 +2,6 @@
 using System.Collections;
 using NendUnityPlugin.AD;
 using NendUnityPlugin.AD.Native;
-using GoogleMobileAds.Api;
 
 public class AdManager : Singleton<AdManager> {
 
@@ -24,26 +23,11 @@ public class AdManager : Singleton<AdManager> {
 
 	#endregion
 
-	public static AdRequest GetAdRequest()
-	{
-		return new AdRequest.Builder()
-		.AddTestDevice(AdRequest.TestDeviceSimulator)       // Simulator.
-			.AddTestDevice("30ec665ef7c68238905003e951174579")
-			.AddTestDevice("B58A62380C00BF9DC7BA75C756B5F550")
-			.Build();
-	}
-
-	protected override bool GetDontDestroy()
-	{
-		return false;
-	}
-
 	public override void Initialize ()
 	{
 		base.Initialize ();
-
 		m_goNendNativePanel.SetActive (false);
-		InterstitialLoad();
+		m_nendBanner = m_goNendBanner.GetComponent<NendAdBanner> ();
 		m_nendRectangle = m_goNendRectangle.GetComponent<NendAdBanner> ();
 
 	}
@@ -52,7 +36,7 @@ public class AdManager : Singleton<AdManager> {
 	public GameObject m_goNendNative;
 	public GameObject m_goNendNativePanel;
 
-	private BannerView m_nendBanner = null;
+	private NendAdBanner m_nendBanner;
 	private NendAdBanner m_nendRectangle;
 	private NendAdNative m_nendNative;
 
@@ -68,11 +52,10 @@ public class AdManager : Singleton<AdManager> {
 	public bool m_bIsIcon;
 	#endif
 
-
-	public bool ShowIcon(DataManager.AD_TYPE _eAdType,bool _bDisp ){
+	public void ShowIcon(DataManager.AD_TYPE _eAdType,bool _bDisp ){
 
 		if (m_bAdDispIcon == _bDisp) {
-			return false;
+			return;
 		}
 
 		switch (_eAdType) {
@@ -109,47 +92,19 @@ public class AdManager : Singleton<AdManager> {
 			break;
 		}
 		m_bAdDispIcon = _bDisp;
-		return true;
 	}
 
-	public bool ShowBanner(DataManager.AD_TYPE _eAdType,bool _bDisp){
+	public void ShowBanner(DataManager.AD_TYPE _eAdType,bool _bDisp){
 		if (m_bAdDispBanner == _bDisp) {
-			return false;
+			return;
 		}
 		switch (_eAdType) {
 		case DataManagerBase<DataManager>.AD_TYPE.NEND:
-				if (_bDisp)
-				{
-
-					if (m_nendBanner == null)
-					{
-#if UNITY_EDITOR
-						string adUnitId1 = "unused";
-#elif UNITY_ANDROID
-        string adUnitId1 = "ca-app-pub-5869235725006697/3596808362";
-#elif UNITY_IPHONE
-        string adUnitId1 = "ca-app-pub-5869235725006697/1980474369";
-#else
-        string adUnitId1 = "unexpected_platform";
-#endif
-						BannerView bannerView1 = new BannerView(adUnitId1, AdSize.Banner, AdPosition.Bottom);
-						// Create an empty ad request.
-						AdRequest request1 = GetAdRequest();
-						// Load the banner with the request.
-						bannerView1.LoadAd(request1);
-						bannerView1.OnAdLoaded += Banner_OnAdLoaded;
-						m_nendBanner = bannerView1;
-					}
-					else {
-						m_nendBanner.Show();
-					}
-				}
-				else {
-					if (m_nendBanner != null)
-					{
-						m_nendBanner.Hide();
-					}
-				}
+			if (_bDisp) {
+				m_nendBanner.Show ();
+			} else {
+				m_nendBanner.Hide ();
+			}
 			break;
 		case DataManagerBase<DataManager>.AD_TYPE.IMOBILE:
 			#if UNITY_IPHONE || UNITY_ANDROID && !UNITY_EDITOR
@@ -174,12 +129,6 @@ public class AdManager : Singleton<AdManager> {
 			break;
 		}
 		m_bAdDispBanner = _bDisp;
-		return true;
-	}
-	private void Banner_OnAdLoaded(object sender, System.EventArgs e)
-	{
-		BannerView inter = (BannerView)sender;
-		inter.Show();
 	}
 
 
@@ -223,54 +172,6 @@ public class AdManager : Singleton<AdManager> {
 		}
 		m_bAdDispRectangle = _bDisp;
 		return;
-	}
-
-	private bool m_bInterstitialLoaded = false;
-	private InterstitialAd interstitial;
-
-	public void CallInterstitial()
-	{
-		if (m_bInterstitialLoaded == true)
-		{
-			interstitial.OnAdClosed += ViewInterstitial_OnAdClosed;
-			interstitial.Show();
-		}
-	}
-	private void InterstitialLoad()
-	{
-		// 通常表示
-#if UNITY_ANDROID
-		string adUnitId = "ca-app-pub-5869235725006697/9155330765";
-#elif UNITY_IPHONE
-		string adUnitId = "ca-app-pub-5869235725006697/7399395965";
-#endif
-		m_bInterstitialLoaded = false;
-		// Create an interstitial.
-		interstitial = new InterstitialAd(adUnitId);
-		// Create an empty ad request.
-		AdRequest request = GetAdRequest();
-
-		// Load the interstitial with the request.
-		interstitial.LoadAd(request);
-		interstitial.OnAdLoaded += ViewInterstitial_OnAdLoaded;
-		interstitial.OnAdFailedToLoad += ViewInterstitial_OnAdFailedToLoad;
-
-	}
-
-	private void ViewInterstitial_OnAdLoaded(object sender, System.EventArgs e)
-	{
-		m_bInterstitialLoaded = true;
-	}
-	private void ViewInterstitial_OnAdFailedToLoad(object sender, System.EventArgs e)
-	{
-		Debug.LogError("fail");
-	}
-	private void ViewInterstitial_OnAdClosed(object sender, System.EventArgs e)
-	{
-		InterstitialAd inter = (InterstitialAd)sender;
-		inter.Destroy();
-		m_bInterstitialLoaded = false;
-		InterstitialLoad();
 	}
 
 

@@ -62,15 +62,8 @@ public class BookIcon : MonoBehaviourEx {
 			if (bInit) {
 				string strImage = m_bookParam.local_path + "/" + m_bookParam.name;
 
-					Firebase.Analytics.FirebaseAnalytics.LogEvent("show_book_icon", "name", m_bookParam.name);
-
-					m_stillMain = PrefabManager.Instance.MakeScript<StillMain> ("prefab/StillMain", m_goParent);
-
-					m_stillMain.transform.localPosition = new Vector3(
-						m_goParent.transform.localPosition.x * -1,
-						0.0f,
-						0.0f
-						);
+				m_stillMain = PrefabManager.Instance.MakeScript<StillMain> ("prefab/StillMain", m_goParent);
+					m_stillMain.transform.localPosition = new Vector3(-1.0f * m_goParent.transform.localPosition.x, 0.0f, 0.0f);
 				m_stillMain.Initialize (strImage , true );
 			}
 			if (m_stillMain.IsEnd ()) {

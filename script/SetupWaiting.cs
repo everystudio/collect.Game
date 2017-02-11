@@ -11,10 +11,6 @@ public class SetupWaiting : MonoBehaviourEx {
 	public int m_iCount;
 	public int m_iCountMax;
 
-	public void SetBaseText(string _strText){
-		m_strBase = _strText;
-	}
-
 	void Start(){
 		if (m_strBase.Equals ("")) {
 			m_strBase = "データ準備中";
